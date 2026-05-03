@@ -17,8 +17,8 @@ import { join } from 'node:path';
 
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
 const VERSION = process.env.PLUGIN_VERSION_OVERRIDE ?? pkg.version;
-const TARBALL = `cursor-lua-agent-builder-${VERSION}.tar.gz`;
-const PREFIX = `cursor-lua-agent-builder-${VERSION}/`;
+const TARBALL = `codex-lua-plugin-${VERSION}.tar.gz`;
+const PREFIX = `codex-lua-plugin-${VERSION}/`;
 
 console.log(`Packaging v${VERSION}...`);
 
