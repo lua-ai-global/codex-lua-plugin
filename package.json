@@ -8,7 +8,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "lint": "eslint . && node scripts/lint-paths.mjs && node scripts/lint-mcp-refs.mjs && node scripts/lint-pinned-version.mjs && node scripts/lint-knowledge-commands.mjs && node scripts/lint-monorepo-paths.mjs && node scripts/lint-log-field-names.mjs && node scripts/lint-chat-thread-flag.mjs && node scripts/lint-cli-flags.mjs",
+    "lint": "eslint . && node scripts/lint-paths.mjs && node scripts/lint-mcp-refs.mjs && node scripts/lint-pinned-version.mjs && node scripts/lint-knowledge-commands.mjs && node scripts/lint-monorepo-paths.mjs && node scripts/lint-log-field-names.mjs && node scripts/lint-chat-thread-flag.mjs && node scripts/lint-cli-flags.mjs && node scripts/lint-codex-manifest.mjs && node scripts/lint-codex-mcp-config.mjs && node scripts/lint-codex-no-claude-root.mjs",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage && node scripts/check-coverage.mjs",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch"

@@ -8,8 +8,8 @@ on:
 # package.json version was bumped. If the tag already exists (no version
 # bump), the release step is skipped — lints + tests still run.
 #
-# Tag prefix is `cursor-v` (claude-code-lua-plugin uses `v`) to keep the two
-# repos' tags from colliding when cross-referenced.
+# Tag prefix is `codex-v` (Cursor port uses `cursor-v`, claude-code-lua-plugin
+# uses `v`) to keep the four repos' tags from colliding when cross-referenced.
 
 permissions:
   contents: write
@@ -61,7 +61,7 @@ jobs:
             echo "::error::Production release requires a stable version in package.json (no -beta/-rc/-alpha suffix). Got: ${VERSION}"
             exit 1
           fi
-          echo "tag=cursor-v${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=codex-v${VERSION}" >> "$GITHUB_OUTPUT"
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "Production version: ${VERSION}"
 
@@ -79,7 +79,7 @@ jobs:
         if: steps.tag_check.outputs.skip != 'true'
         run: |
           node scripts/pack.mjs
-          TARBALL="cursor-lua-agent-builder-${{ steps.version.outputs.version }}.tar.gz"
+          TARBALL="codex-lua-plugin-${{ steps.version.outputs.version }}.tar.gz"
           ls -lh "${TARBALL}"
           echo "TARBALL=${TARBALL}" >> "$GITHUB_ENV"
 
