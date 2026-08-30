@@ -50,10 +50,13 @@ If any of this fails, see the [Troubleshooting](#7-troubleshooting) section belo
 /lua-auth
 ```
 
-The skill asks how you want to authenticate:
+The skill first runs `lua agents --json --ci`. If a credential from `LUA_API_KEY`, `~/.lua-cli/credentials`, or the project's `.env` file works, the plugin leaves it unchanged. Existing non-dotted legacy keys remain supported.
 
-- **Email + OTP** (recommended for first-time users) — enter your email; you'll receive a 6-digit code; enter it back. The CLI generates and stores an API key for you.
-- **Existing API key** — paste it. (The plugin's `before-shell-execution.mjs` hook denies `lua auth key*` invocations specifically to prevent your stored key from being printed back into the chat transcript.)
+For a new login, install lua-cli 3.28.0 or newer. Open a terminal outside Codex and run `lua auth configure`, then choose the email option. The CLI handles your email and OTP, then requires an organization, one or more exact agents, and an assignable role. Builder is the default role. The CLI writes the typed personal credential to `~/.lua-cli/credentials` with mode `0600`.
+
+If you already have a credential that is not configured, choose the existing-key option in the private terminal. Existing automation can keep using `LUA_API_KEY` or `.env`.
+
+Never paste an email, an OTP, or a credential into the Codex conversation. The safety hook denies model-run `lua auth configure` and `lua auth key*` commands.
 
 Verify with:
 
@@ -206,7 +209,7 @@ The `/lua-deploy` skill sets this env var automatically after walking you throug
 | `node scripts/install.mjs` says "Codex CLI not on PATH" | Codex CLI not installed | `npm install -g @openai/codex`, then re-run install |
 | `node scripts/install.mjs` says "MCP server bundle not found" | Build step skipped | `cd mcp/lua-platform && npm ci && npm run build`, then re-run install |
 | `/lua-` doesn't autocomplete in Codex | Plugin install reported success but Codex didn't reload | Restart Codex completely (close all sessions) |
-| MCP tools missing from agent | `LUA_API_KEY` not set | Run `/lua-auth` to set credentials, or `export LUA_API_KEY=lk_...` |
+| MCP tools missing from agent | No working credential | Run `/lua-auth`. Existing automation can keep using `LUA_API_KEY='<existing-credential>'`. |
 | **All shell commands rejected with `DEPLOY_DENIED_BARE`** | Stale install (pre-bug-fix `confirm-deploy.mjs`) | `cd ~/codex-lua-plugin && git pull && node scripts/install.mjs` |
 | Architect proposes custom tools that duplicate an integration's API | Rare, but if seen: the architect didn't run the MCP discovery step | Manually attach `@integrations`, then re-prompt with: "Verify the MCP surface for `<integration>` before listing custom tools" |
 | Want to start fresh | n/a | `node scripts/install.mjs --uninstall && node scripts/install.mjs` — clean re-install |

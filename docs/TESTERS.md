@@ -45,7 +45,7 @@ If any of those four checks fails, see [Common gotchas](#5-common-gotchas) below
 Once the sanity check passes, walk a full agent build to verify the integration works in your own environment:
 
 ```
-/lua-auth                                       # email+OTP, takes ~30s
+/lua-auth                                       # private typed login through lua-cli 3.28.0+
 /lua-doctor                                     # 5-step env diagnostic
 /lua-architect Build me an agent that summarises my Stripe refund history
                                                 # produces a structured plan
@@ -81,7 +81,7 @@ This is a fresh port from the Cursor and Claude Code plugins, so the things most
 | `node scripts/install.mjs` says "Codex CLI not on PATH" | Codex isn't installed | `npm install -g @openai/codex` |
 | `node scripts/install.mjs` says "MCP server bundle not found" | Build step skipped | `cd mcp/lua-platform && npm ci && npm run build` then re-run install |
 | `/lua-` doesn't autocomplete | Plugin installed but Codex needs reload | Fully exit and reopen Codex |
-| MCP tools missing | `LUA_API_KEY` not set | `/lua-auth` or `export LUA_API_KEY=lk_...` |
+| MCP tools missing | No working credential | Run `/lua-auth`. Existing automation can keep `LUA_API_KEY='<existing-credential>'`. |
 | Every shell command rejected with `DEPLOY_DENIED_BARE` | Stale install (pre-fix bug from earlier ports) | `git pull && node scripts/install.mjs` |
 | `lua agents --json --ci` returns nothing in `/lua-doctor` | Auth state out of sync | Re-run `/lua-auth` |
 

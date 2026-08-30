@@ -29,7 +29,7 @@ To uninstall: `node scripts/install.mjs --uninstall` (removes the plugin AND the
 
 To update: `cd ~/codex-lua-plugin && git pull && node scripts/install.mjs` — idempotent; Codex re-reads the manifest and updates components.
 
-In Codex, type `/` to see the `lua-*` skills appear in autocomplete. Run `/lua-doctor` first to verify the environment, then `/lua-auth` to authenticate.
+In Codex, type `/` to see the `lua-*` skills in autocomplete. Run `/lua-doctor` to verify the environment, then `/lua-auth`. A new login uses `lua auth configure` in a private terminal and requires lua-cli 3.28.0 or newer.
 
 ## What's inside
 
@@ -89,7 +89,7 @@ The plugin enforces the same gates as the Claude Code and Cursor versions:
 
 - **§3.3 deploy gate** — bare `lua deploy` is denied by `hooks/before-shell-execution.mjs` unless prefixed with `LUA_DEPLOY_CONFIRMED=1` (the `/lua-deploy` skill sets this after walking the user through the gated 5-step ship sequence).
 - **`--auto-deploy` block** — denied for any command containing `--auto-deploy`.
-- **Credential isolation** — `lua auth key*` is denied to prevent the API key from being printed into the chat transcript.
+- **Credential isolation** — model-run `lua auth configure` and `lua auth key*` commands are denied. Account details, OTPs, and credentials stay in a private terminal.
 - **Single-permission contract** — preserved in the skill bodies.
 
 See [`SECURITY.md`](./SECURITY.md) for disclosure path.
